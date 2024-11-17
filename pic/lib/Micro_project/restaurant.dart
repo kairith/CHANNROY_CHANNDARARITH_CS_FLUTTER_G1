@@ -1,7 +1,3 @@
-// team member: CHANNROY CHANNDARARITH , CHEIP CHEAMINH,
-
-
-
 import 'dart:io';
 
 enum itemType { 
