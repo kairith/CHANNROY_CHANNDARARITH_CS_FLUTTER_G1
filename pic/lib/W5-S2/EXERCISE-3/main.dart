@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test1/W5-S2-List-Inputs/1%20-%20START%20CODE/EXERCISE-3/screen/welcome.dart';
+import 'package:pic/W5-S2/EXERCISE-3/screen/welcome.dart';
 
 class TemperatureApp extends StatefulWidget {
   const TemperatureApp({super.key});
