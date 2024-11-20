@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pic/W5-S2/EXERCISE-3/screen/welcome.dart';
-
+import 'package:pic/W5-S2/EXERCISE-3/screen/temperature.dart';
 class TemperatureApp extends StatefulWidget {
   const TemperatureApp({super.key});
 
@@ -11,7 +11,13 @@ class TemperatureApp extends StatefulWidget {
 }
 
 class _TemperatureAppState extends State<TemperatureApp> {
-  
+  bool _isTemp = false;
+  void _toggleTemp() {
+    setState(() {
+      _isTemp =!_isTemp;
+    });
+  }
+
   @override
   Widget build(context) {
 
@@ -28,7 +34,7 @@ class _TemperatureAppState extends State<TemperatureApp> {
               end: Alignment.bottomRight,
             ),
           ),
-          child: const Welcome(),
+          child: _isTemp ? Temperature() : Welcome ( called: _toggleTemp, ),
         ),
       ),
     );
