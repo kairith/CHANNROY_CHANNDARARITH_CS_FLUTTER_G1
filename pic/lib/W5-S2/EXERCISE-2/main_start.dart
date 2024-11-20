@@ -54,8 +54,9 @@ class ProfileApp extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
+              ...profile.tiles.map((tile)=>ProfileTile(icon: tile.icon, title: tile.title, data: tile.value)),
+              ...profile.tiles.map((tile)=>ProfileTile(icon: tile.icon, title: tile.title, data: tile.value)),
               ...profile.tiles.map((tile)=>ProfileTile(icon: tile.icon, title: tile.title, data: tile.value))
-              
             ],
           ),
         ),
@@ -63,7 +64,6 @@ class ProfileApp extends StatelessWidget {
     );
   }
 }
-
 class ProfileTile extends StatelessWidget {
   const ProfileTile({
     super.key,
