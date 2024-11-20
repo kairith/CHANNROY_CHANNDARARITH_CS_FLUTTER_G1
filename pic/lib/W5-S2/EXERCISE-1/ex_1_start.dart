@@ -17,24 +17,21 @@ void main() {
             const Label("Method 1: Loop in Array", bold: true),
             Column(
               children:[
-                const Text("start"),
-                for(var i = 0; i <10 ; i++) Text("item $i"),
-                const Text("end"), 
+                for(var i = 0; i <10 ; i++) Text("$i"),  
               ]
             ),
             const Label("Method 2: Map", bold: true),
             Column(
               children: [
-                const Text("start"),
                 ...colors.map((color) => Text(color)),
               ],
             ),
             const Label("Method 3: Dedicated Function", bold: true),
             Column(
               children: [
-                const Text("start"),
+                
                 ...buildList(),
-                const Text("end"),
+                
               ],
             ),
           ],
