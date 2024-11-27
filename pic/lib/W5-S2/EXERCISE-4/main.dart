@@ -32,7 +32,6 @@ class _FavoriteCardState extends State<FavoriteCard> {
       _isFavorite = !_isFavorite;
     });
   }
- 
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,7 +64,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
               icon: Icon(
                 _isFavorite ? Icons.favorite : Icons.favorite_border,
                 color: _isFavorite ? Colors.red : Colors.grey,
-              ))
+            ))
         ],
       ),
     );
