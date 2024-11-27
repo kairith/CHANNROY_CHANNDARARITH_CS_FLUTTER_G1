@@ -92,17 +92,17 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   height: 50, 
                   child: ElevatedButton(
                     onPressed: () => _answerQuestion(answer),
-                    child: Text(
-                      answer,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 16),
-                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.blue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8), // Rounded edges
                       ),
+                    ),
+                    child: Text(
+                      answer,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
