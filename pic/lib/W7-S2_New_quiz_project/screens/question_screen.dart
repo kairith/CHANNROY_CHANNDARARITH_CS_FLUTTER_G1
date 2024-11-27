@@ -24,17 +24,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-
     return textPainter.size.width + 40; 
   }
-
   void _answerQuestion(String answer) {
     if (answer == widget.quiz.questions[currentQuestionIndex].goodAnswer) {
       setState(() {
         score++;
       });
     }
-
     if (currentQuestionIndex + 1 >= widget.quiz.questions.length) {
       // Show result screen
       Navigator.push(

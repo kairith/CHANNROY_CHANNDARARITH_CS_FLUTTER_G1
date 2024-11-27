@@ -36,7 +36,7 @@ class ResultScreen extends StatelessWidget {
               style: const TextStyle(fontSize: 24, color: Colors.white),
             ),
 
-            
+            //check the answer
             
 
             const SizedBox(height: 40),
