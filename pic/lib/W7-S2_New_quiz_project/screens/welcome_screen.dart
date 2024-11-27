@@ -36,9 +36,9 @@ class WelcomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             AppButton(
-              // AppButton for the Start Quiz button
+             
               text: 'Start Quiz',
-              onPressed: onStart, // Calls onStart to start the quiz
+              onPressed: onStart,
               color: Colors.white,
               textColor: Colors.blue,
             ),

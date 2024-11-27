@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 class AppButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  final Color color; // Button background color
-  final Color textColor; // Text color
-  final double borderRadius; // Customizable corner radius
+  final Color color; 
+  final Color textColor;
+  final double borderRadius; 
 
   const AppButton({
     Key? key,
     required this.text,
     required this.onPressed,
-    this.color = Colors.blue, // Default background color
-    this.textColor = Colors.white, // Default text color
+    this.color = Colors.blue, 
+    this.textColor = Colors.white,
     this.borderRadius = 8.0,
   }) : super(key: key);
 
@@ -21,8 +21,8 @@ class AppButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: color, // Replaces `primary`
-        foregroundColor: textColor, // Replaces `onPrimary`
+        backgroundColor: color, 
+        foregroundColor: textColor, 
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
         ),

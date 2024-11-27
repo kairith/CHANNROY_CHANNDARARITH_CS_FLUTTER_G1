@@ -36,6 +36,8 @@ class ResultScreen extends StatelessWidget {
               style: const TextStyle(fontSize: 24, color: Colors.white),
             ),
 
+            
+            
 
             const SizedBox(height: 40),
             ElevatedButton(

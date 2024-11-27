@@ -3,7 +3,7 @@ import 'package:pic/W7-S2_New_quiz_project/model/quiz.dart';
 import 'package:pic/W7-S2_New_quiz_project/screens/result_screen.dart';
 
 class QuestionScreen extends StatefulWidget {
-  final Quiz quiz;
+final Quiz quiz;
 
   const QuestionScreen({Key? key, required this.quiz}) : super(key: key);
 
@@ -15,17 +15,17 @@ class _QuestionScreenState extends State<QuestionScreen> {
   int score = 0;
   int currentQuestionIndex = 0;
 
-  // Function to calculate dynamic width based on title length
+ 
   double calculateTitleWidth(String title, BuildContext context) {
     TextPainter textPainter = TextPainter(
       text: TextSpan(
         text: title,
-        style: const TextStyle(fontSize: 18), // Match the font size
+        style: const TextStyle(fontSize: 18), 
       ),
       textDirection: TextDirection.ltr,
     )..layout();
 
-    return textPainter.size.width + 40; // Add padding for a better layout
+    return textPainter.size.width + 40; 
   }
 
   void _answerQuestion(String answer) {
@@ -72,16 +72,16 @@ class _QuestionScreenState extends State<QuestionScreen> {
         title: Text(widget.quiz.title),
       ),
       body: Center(
-        // Wrap the body in a Center widget
+        
         child: Column(
           mainAxisSize:
-              MainAxisSize.min, // Minimize the column size to its children
+              MainAxisSize.min, 
           children: [
             Text(
               currentQuestion.title,
               style: const TextStyle(
                 fontSize: 24,
-                color: Colors.white, // Adjusted for better contrast
+                color: Colors.white, 
               ),
               textAlign: TextAlign.center,
             ),
@@ -91,8 +91,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: SizedBox(
                   width: calculateTitleWidth(
-                      currentQuestion.title, context), // Dynamic width
-                  height: 50, // Fixed height
+                      currentQuestion.title, context),
+                  height: 50, 
                   child: ElevatedButton(
                     onPressed: () => _answerQuestion(answer),
                     child: Text(
