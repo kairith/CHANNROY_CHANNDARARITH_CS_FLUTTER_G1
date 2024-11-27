@@ -32,8 +32,7 @@ class _MyViewState extends State<MyView> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              // Navigate to AddExpenseScreen
-              // Add navigation logic here
+           
             },
           ),
         ],
@@ -41,28 +40,28 @@ class _MyViewState extends State<MyView> {
         title: const Text('Expense Tracker'),
       ),
       body: Container(
-        color: const Color.fromARGB(255, 67, 163, 242), // Set ARGB background color
+        color: const Color.fromARGB(255, 67, 163, 242), 
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: _registerExpenses.map((expense) {
               return Container(
-                width: 300, // Set the width of the container
-                height: 60, // Set the height of the container
+                width: 300,
+                height: 60, 
                 decoration: BoxDecoration(
-                  color: Colors.white, // Set background color for each expense
-                  borderRadius: BorderRadius.circular(10), // Set border radius
+                  color: Colors.white, 
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                margin: const EdgeInsets.symmetric(vertical: 10), // Add margin between items
-                padding: const EdgeInsets.all(8), // Padding inside the container
+                margin: const EdgeInsets.symmetric(vertical: 10), 
+                padding: const EdgeInsets.all(8), 
                 child: Center(
                   child: Text(
                     '${expense.title}: \$${expense.amount}',
                     style: const TextStyle(
                       fontSize: 16,
-                      color: Colors.black, // Set text color to black for contrast
+                      color: Colors.black, 
                     ),
-                    textAlign: TextAlign.center, // Center the text
+                    textAlign: TextAlign.center, 
                   ),
                 ),
               );
