@@ -1,7 +1,6 @@
 class Answer {
   final String questionAnswer;
   final String correctAnswer;
-
   Answer({required this.questionAnswer, required this.correctAnswer});
 
   bool isCorrect() {
@@ -27,7 +26,6 @@ class Submission {
     _answers.clear();
   }
 }
-
 class Question {
   final String title;
   final List<String> possibleAnswers;
