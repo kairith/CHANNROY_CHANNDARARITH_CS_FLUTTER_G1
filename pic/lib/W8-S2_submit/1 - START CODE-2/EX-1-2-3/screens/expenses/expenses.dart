@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
- 
+
 import '../../models/expense.dart';
 import 'expenses_form.dart';
 import 'expenses_list.dart';
@@ -14,7 +14,7 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  final List<Expense> _registeredExpenses = [
+  List<Expense> _registeredExpenses = [
     Expense(
       title: 'Flutter Course',
       amount: 19.99,
@@ -29,10 +29,33 @@ class _ExpensesState extends State<Expenses> {
     ),
   ];
 
+  // Backup list for deleted expenses (for Undo functionality)
+  List<Expense> _deletedExpensesBackup = [];
 
   void onExpenseRemoved(Expense expense) {
     setState(() {
+      // Backup the deleted expense
+      _deletedExpensesBackup = List.from(_registeredExpenses);
+
+      // Remove the selected expense
       _registeredExpenses.remove(expense);
+
+      // Show SnackBar with Undo action
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Expense deleted'),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              setState(() {
+                // Restore the backup of expenses
+                _registeredExpenses = List.from(_deletedExpensesBackup);
+              });
+            },
+          ),
+          duration: const Duration(seconds: 3),
+        ),
+      );
     });
   }
 
@@ -41,13 +64,14 @@ class _ExpensesState extends State<Expenses> {
       _registeredExpenses.add(newExpense);
     });
   }
- 
 
   void onAddPressed() {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (ctx) => ExpenseForm(onCreated: onExpenseCreated,),
+      builder: (ctx) => ExpenseForm(
+        onCreated: onExpenseCreated,
+      ),
     );
   }
 
@@ -65,7 +89,24 @@ class _ExpensesState extends State<Expenses> {
         backgroundColor: Colors.blue[700],
         title: const Text('Ronan-The-Best Expenses App'),
       ),
-      body: ExpensesList(expenses: _registeredExpenses, onExpenseRemoved: onExpenseRemoved,),
+      body: _registeredExpenses.isEmpty
+          ? const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  
+                  SizedBox(height: 20),
+                  Text(
+                    'No expenses found! start adding some!',
+                    style: TextStyle(fontSize: 18, color: Color.fromARGB(255, 0, 0, 0)),
+                  ),
+                ],
+              ),
+            )
+          : ExpensesList(
+              expenses: _registeredExpenses,
+              onExpenseRemoved: onExpenseRemoved,
+            ),
     );
   }
 }

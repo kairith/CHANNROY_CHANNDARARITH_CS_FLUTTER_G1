@@ -4,9 +4,7 @@ import '../../models/expense.dart';
 
 class ExpenseForm extends StatefulWidget {
   const ExpenseForm({super.key, required this.onCreated});
-
   final Function(Expense) onCreated;
-
   @override
   State<ExpenseForm> createState() => _ExpenseFormState();
 }
@@ -14,8 +12,7 @@ class ExpenseForm extends StatefulWidget {
 class _ExpenseFormState extends State<ExpenseForm> {
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
-
-  // Use a map to associate display text with actual categories
+  
   final Map<String, Category> _expenseCategories = {
     "Food": Category.food,
     "Travel": Category.travel,
@@ -45,13 +42,12 @@ class _ExpenseFormState extends State<ExpenseForm> {
     _valueController.dispose();
     super.dispose();
   }
-
+  
   void onCancel() {
     Navigator.pop(context);
   }
-
   void onAdd() {
-    // Get input values
+    
     String title = _titleController.text;
     double amount = double.tryParse(_valueController.text) ?? 0;
 
@@ -62,7 +58,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
       );
       return;
     }
-
     // Create the expense using the mapped category
     Expense expense = Expense(
       title: title,
@@ -77,6 +72,8 @@ class _ExpenseFormState extends State<ExpenseForm> {
     // Close the modal
     Navigator.pop(context);
   }
+
+   
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +120,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
               // Icon for calendar
               GestureDetector(
                 onTap: () => _selectDate(
-                    context), // Calls the _selectDate function when tapped
+                    context), 
                 child: const Icon(
                   Icons.calendar_month_sharp, // Date icon
                   color: Colors.blue, // Icon color
@@ -143,11 +140,11 @@ class _ExpenseFormState extends State<ExpenseForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: 200, // Limit dropdown size
+                width: 100, 
 
                 child: DropdownButton<String>(
                   value: _selectedCategoryKey,
-                  hint: const Text('Select a category'),
+                  hint: const Text('category'),
                   items: _expenseCategories.keys
                       .map((key) => DropdownMenuItem<String>(
                             value: key,
