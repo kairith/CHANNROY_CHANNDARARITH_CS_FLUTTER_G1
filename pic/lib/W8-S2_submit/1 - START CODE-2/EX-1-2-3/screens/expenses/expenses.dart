@@ -28,19 +28,14 @@ class _ExpensesState extends State<Expenses> {
       category: Category.leisure,
     ),
   ];
-
-  // Backup list for deleted expenses (for Undo functionality)
   List<Expense> _deletedExpensesBackup = [];
 
   void onExpenseRemoved(Expense expense) {
     setState(() {
-      // Backup the deleted expense
       _deletedExpensesBackup = List.from(_registeredExpenses);
 
-      // Remove the selected expense
       _registeredExpenses.remove(expense);
 
-      // Show SnackBar with Undo action
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('Expense deleted'),
@@ -94,11 +89,11 @@ class _ExpensesState extends State<Expenses> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  
                   SizedBox(height: 20),
                   Text(
                     'No expenses found! start adding some!',
-                    style: TextStyle(fontSize: 18, color: Color.fromARGB(255, 0, 0, 0)),
+                    style: TextStyle(
+                        fontSize: 18, color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                 ],
               ),
