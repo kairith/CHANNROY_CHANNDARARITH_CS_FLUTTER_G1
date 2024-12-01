@@ -14,8 +14,9 @@ class ExpenseForm extends StatefulWidget {
 class _ExpenseFormState extends State<ExpenseForm> {
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
+  final List<String> _expenseCategories = ["food", "travel", "leisure", "work"];
 
-  String get title => _titleController.text;
+  String? _selectedCategory; // State for the selected dropdown category
 
   @override
   void dispose() {
@@ -25,7 +26,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
   }
 
   void onCancel() {
-    
     // Close modal
     Navigator.pop(context);
   }
@@ -35,17 +35,27 @@ class _ExpenseFormState extends State<ExpenseForm> {
     String title = _titleController.text;
     double amount = double.parse(_valueController.text);
 
-    // 2- Create the expense
-    Expense expense = Expense(
-        title: title,
-        amount: amount,
-        date: DateTime.now(),     //  TODO :  For now it s a fake data
-        category: Category.food); //  TODO :  For now it s a fake data
+    // 2- Validate the category
+    if (_selectedCategory == null) {
+      // Show error or handle missing category selection
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a category')),
+      );
+      return;
+    }
 
-    // 3- Ask the parent to add the expense
+    // 3- Create the expense
+    Expense expense = Expense(
+      title: title,
+      amount: amount,
+      date: DateTime.now(), //  TODO :  For now it's a fake data
+      category: Category.food, // TODO: Map `_selectedCategory` to `Category`
+    );
+
+    // 4- Ask the parent to add the expense
     widget.onCreated(expense);
 
-    // 4- Close modal
+    // 5- Close modal
     Navigator.pop(context);
   }
 
@@ -78,13 +88,28 @@ class _ExpenseFormState extends State<ExpenseForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(onPressed: onCancel, child: const Text('Cancel')),
-              const SizedBox(
-                width: 20,
+              DropdownButton<String>(
+                value: _selectedCategory,
+                hint: const Text('Select a category'),
+                items: _expenseCategories
+                    .map((category) => DropdownMenuItem<String>(
+                          value: category,
+                          child: Text(category),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedCategory = value; // Update the selected category
+                  });
+                },
               ),
-              ElevatedButton(onPressed: onAdd, child: const Text('Create')),
+              const SizedBox(width: 20),
+              ElevatedButton(onPressed: onCancel, child: const Text('Cancel')),
+              const SizedBox(width: 20),
+              ElevatedButton(
+                  onPressed: onAdd, child: const Text('Save expense')),
             ],
-          )
+          ),
         ],
       ),
     );
