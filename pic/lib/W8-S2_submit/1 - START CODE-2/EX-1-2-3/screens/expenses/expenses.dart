@@ -43,7 +43,6 @@ class _ExpensesState extends State<Expenses> {
             label: 'Undo',
             onPressed: () {
               setState(() {
-                // Restore the backup of expenses
                 _registeredExpenses = List.from(_deletedExpensesBackup);
               });
             },
