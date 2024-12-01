@@ -92,31 +92,53 @@ class _ExpenseFormState extends State<ExpenseForm> {
               label: Text('Title'),
             ),
           ),
-          
-              TextField(
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                controller: _valueController,
-                maxLength: 50,
-                decoration: const InputDecoration(
-                  prefix: Text('\$ '),
-                  label: Text('Amount'),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // TextField inside Row
+              Expanded(
+                // Expanded or Flexible widget helps in avoiding overflow
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  controller: _valueController,
+                  maxLength: 50,
+                  decoration: const InputDecoration(
+                    prefix: Text('\$ '),
+                    label: Text('Amount'),
+                  ),
                 ),
               ),
               const SizedBox(width: 20),
+
+              // Text to display date or 'No date selected'
               Text(
                 _selectedDate == null
                     ? "No date selected"
-                    : "$_selectedDate: ${_selectedDate!.toLocal()}"
-                        .split(' ')[0],
+                    : "${_selectedDate!.toLocal()}".split(' ')[0],
                 style: const TextStyle(fontSize: 16),
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => _selectDate(context),
-                child: const Text("Select Date"),
-          
+              const SizedBox(width: 10),
+
+              // Icon for calendar
+              GestureDetector(
+                onTap: () => _selectDate(
+                    context), // Calls the _selectDate function when tapped
+                child: const Icon(
+                  Icons.calendar_month_sharp, // Date icon
+                  color: Colors.blue, // Icon color
+                  size: 24.0, // Icon size
+                ),
+              ),
+            ],
           ),
+          const Row(
+            children: [
+              SizedBox(width: 10),
+            ],
+          ),
+          const SizedBox(height: 20),
+          const SizedBox(width: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
