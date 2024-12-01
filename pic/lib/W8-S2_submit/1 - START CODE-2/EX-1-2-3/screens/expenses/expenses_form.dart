@@ -14,9 +14,30 @@ class ExpenseForm extends StatefulWidget {
 class _ExpenseFormState extends State<ExpenseForm> {
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
-  final List<String> _expenseCategories = ["food", "travel", "leisure", "work"];
 
-  String? _selectedCategory; // State for the selected dropdown category
+  // Use a map to associate display text with actual categories
+  final Map<String, Category> _expenseCategories = {
+    "Food": Category.food,
+    "Travel": Category.travel,
+    "Leisure": Category.leisure,
+    "Work": Category.work,
+  };
+  DateTime? _selectedDate;
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(), // Default selected date
+      firstDate: DateTime(2000), // Earliest selectable date
+      lastDate: DateTime(2100), // Latest selectable date
+    );
+    if (pickedDate != null && pickedDate != _selectedDate) {
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    }
+  }
+
+  String? _selectedCategoryKey; // Holds the key of the selected category
 
   @override
   void dispose() {
@@ -26,36 +47,34 @@ class _ExpenseFormState extends State<ExpenseForm> {
   }
 
   void onCancel() {
-    // Close modal
     Navigator.pop(context);
   }
 
   void onAdd() {
-    // 1- Get the values from inputs
+    // Get input values
     String title = _titleController.text;
-    double amount = double.parse(_valueController.text);
+    double amount = double.tryParse(_valueController.text) ?? 0;
 
-    // 2- Validate the category
-    if (_selectedCategory == null) {
-      // Show error or handle missing category selection
+    // Validate inputs
+    if (_selectedCategoryKey == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please select a category')),
       );
       return;
     }
 
-    // 3- Create the expense
+    // Create the expense using the mapped category
     Expense expense = Expense(
       title: title,
       amount: amount,
-      date: DateTime.now(), //  TODO :  For now it's a fake data
-      category: Category.food, // TODO: Map `_selectedCategory` to `Category`
+      date: _selectedDate!,
+      category: _expenseCategories[_selectedCategoryKey]!,
     );
 
-    // 4- Ask the parent to add the expense
+    // Pass the expense to the parent
     widget.onCreated(expense);
 
-    // 5- Close modal
+    // Close the modal
     Navigator.pop(context);
   }
 
@@ -73,41 +92,58 @@ class _ExpenseFormState extends State<ExpenseForm> {
               label: Text('Title'),
             ),
           ),
-          TextField(
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly,
-            ],
-            controller: _valueController,
-            maxLength: 50,
-            decoration: const InputDecoration(
-              prefix: Text('\$ '),
-              label: Text('Amount'),
-            ),
+          
+              TextField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                controller: _valueController,
+                maxLength: 50,
+                decoration: const InputDecoration(
+                  prefix: Text('\$ '),
+                  label: Text('Amount'),
+                ),
+              ),
+              const SizedBox(width: 20),
+              Text(
+                _selectedDate == null
+                    ? "No date selected"
+                    : "$_selectedDate: ${_selectedDate!.toLocal()}"
+                        .split(' ')[0],
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => _selectDate(context),
+                child: const Text("Select Date"),
+          
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              DropdownButton<String>(
-                value: _selectedCategory,
-                hint: const Text('Select a category'),
-                items: _expenseCategories
-                    .map((category) => DropdownMenuItem<String>(
-                          value: category,
-                          child: Text(category),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedCategory = value; // Update the selected category
-                  });
-                },
+              SizedBox(
+                width: 200, // Limit dropdown size
+
+                child: DropdownButton<String>(
+                  value: _selectedCategoryKey,
+                  hint: const Text('Select a category'),
+                  items: _expenseCategories.keys
+                      .map((key) => DropdownMenuItem<String>(
+                            value: key,
+                            child: Text(key),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedCategoryKey = value;
+                    });
+                  },
+                  isExpanded: true,
+                ),
               ),
-              const SizedBox(width: 20),
               ElevatedButton(onPressed: onCancel, child: const Text('Cancel')),
               const SizedBox(width: 20),
               ElevatedButton(
-                  onPressed: onAdd, child: const Text('Save expense')),
+                  onPressed: onAdd, child: const Text('Save Expense')),
             ],
           ),
         ],
