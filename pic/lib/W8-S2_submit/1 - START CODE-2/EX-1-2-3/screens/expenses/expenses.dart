@@ -12,7 +12,6 @@ class Expenses extends StatefulWidget {
     return _ExpensesState();
   }
 }
-
 class _ExpensesState extends State<Expenses> {
   List<Expense> _registeredExpenses = [
     Expense(
