@@ -17,11 +17,11 @@ class _DeviceConverterState extends State<DeviceConverter> {
   final TextEditingController _controller = TextEditingController();
   DeviceCon _selectedDevice = DeviceCon.euro;
   String _convertedAmount = '';
-
+  
   double _convert(double amount) {
     switch (_selectedDevice) {
       case DeviceCon.euro:
-        return amount * 0.85; 
+        return amount * 0.95; 
       case DeviceCon.riel:
         return amount * 4100; 
       case DeviceCon.dong:

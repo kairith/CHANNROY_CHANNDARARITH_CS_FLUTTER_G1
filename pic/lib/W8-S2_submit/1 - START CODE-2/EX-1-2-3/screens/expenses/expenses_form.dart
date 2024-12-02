@@ -23,9 +23,9 @@ class _ExpenseFormState extends State<ExpenseForm> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(), // Default selected date
-      firstDate: DateTime(2000), // Earliest selectable date
-      lastDate: DateTime(2100), // Latest selectable date
+      initialDate: DateTime.now(), 
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100), 
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
       setState(() {
@@ -34,7 +34,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
     }
   }
 
-  String? _selectedCategoryKey; // Holds the key of the selected category
+  String? _selectedCategoryKey; 
 
   @override
   void dispose() {
@@ -58,14 +58,13 @@ class _ExpenseFormState extends State<ExpenseForm> {
       );
       return;
     }
-    // Create the expense using the mapped category
+    
     Expense expense = Expense(
       title: title,
       amount: amount,
       date: _selectedDate!,
       category: _expenseCategories[_selectedCategoryKey]!,
     );
-
     // Pass the expense to the parent
     widget.onCreated(expense);
 
@@ -108,7 +107,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
               ),
               const SizedBox(width: 20),
 
-              // Text to display date or 'No date selected'
+              
               Text(
                 _selectedDate == null
                     ? "No date selected"
