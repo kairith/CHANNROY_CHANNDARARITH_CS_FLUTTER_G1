@@ -14,9 +14,11 @@ class DeviceConverter extends StatefulWidget {
 }
 
 class _DeviceConverterState extends State<DeviceConverter> {
+
   final TextEditingController _controller = TextEditingController();
   DeviceCon _selectedDevice = DeviceCon.euro;
   String _convertedAmount = '';
+
   
   double _convert(double amount) {
     switch (_selectedDevice) {
@@ -32,6 +34,7 @@ class _DeviceConverterState extends State<DeviceConverter> {
   }
 
   void _updateConvertedAmount() {
+
     final double? amount = double.tryParse(_controller.text);
     if (amount != null) {
       final converted = _convert(amount);
@@ -44,7 +47,6 @@ class _DeviceConverterState extends State<DeviceConverter> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -12,6 +12,9 @@ class Expenses extends StatefulWidget {
     return _ExpensesState();
   }
 }
+
+
+
 class _ExpensesState extends State<Expenses> {
   List<Expense> _registeredExpenses = [
     Expense(
@@ -26,15 +29,14 @@ class _ExpensesState extends State<Expenses> {
       date: DateTime.now(),
       category: Category.leisure,
     ),
+    
   ];
   List<Expense> _deletedExpensesBackup = [];
-
+  //EX3 
   void onExpenseRemoved(Expense expense) {
     setState(() {
       _deletedExpensesBackup = List.from(_registeredExpenses);
-
       _registeredExpenses.remove(expense);
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('Expense deleted'),
@@ -50,6 +52,7 @@ class _ExpensesState extends State<Expenses> {
         ),
       );
     });
+    
   }
 
   void onExpenseCreated(Expense newExpense) {

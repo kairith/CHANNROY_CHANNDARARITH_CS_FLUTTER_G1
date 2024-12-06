@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../models/expense.dart';
 
+
 class ExpenseForm extends StatefulWidget {
   const ExpenseForm({super.key, required this.onCreated});
   final Function(Expense) onCreated;
   @override
   State<ExpenseForm> createState() => _ExpenseFormState();
+
+ 
+
 }
 
 class _ExpenseFormState extends State<ExpenseForm> {
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
-  
+
   final Map<String, Category> _expenseCategories = {
     "Food": Category.food,
     "Travel": Category.travel,
@@ -20,12 +24,13 @@ class _ExpenseFormState extends State<ExpenseForm> {
     "Work": Category.work,
   };
   DateTime? _selectedDate;
+  //EX2 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(), 
+      initialDate: DateTime.now(),
       firstDate: DateTime(2000),
-      lastDate: DateTime(2100), 
+      lastDate: DateTime.now(),
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
       setState(() {
@@ -34,7 +39,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
     }
   }
 
-  String? _selectedCategoryKey; 
+  String? _selectedCategoryKey;
 
   @override
   void dispose() {
@@ -42,23 +47,42 @@ class _ExpenseFormState extends State<ExpenseForm> {
     _valueController.dispose();
     super.dispose();
   }
-  
+
   void onCancel() {
     Navigator.pop(context);
   }
+
   void onAdd() {
-    
     String title = _titleController.text;
     double amount = double.tryParse(_valueController.text) ?? 0;
 
-    // Validate inputs
+    if (title.isEmpty) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('invalid Title'),
+              content: const Text('the title cannot be empty'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("OK"),
+                )
+              ],
+            );
+          });
+      return;
+    }
+    // testing snackbar for category
     if (_selectedCategoryKey == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please select a category')),
       );
       return;
     }
-    
+
     Expense expense = Expense(
       title: title,
       amount: amount,
@@ -71,8 +95,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
     // Close the modal
     Navigator.pop(context);
   }
-
-   
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +118,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
                 // Expanded or Flexible widget helps in avoiding overflow
                 child: TextField(
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  
                   controller: _valueController,
                   maxLength: 50,
                   decoration: const InputDecoration(
@@ -107,7 +129,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
               ),
               const SizedBox(width: 20),
 
-              
               Text(
                 _selectedDate == null
                     ? "No date selected"
@@ -118,8 +139,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
 
               // Icon for calendar
               GestureDetector(
-                onTap: () => _selectDate(
-                    context), 
+                onTap: () => _selectDate(context),
                 child: const Icon(
                   Icons.calendar_month_sharp, // Date icon
                   color: Colors.blue, // Icon color
@@ -138,9 +158,9 @@ class _ExpenseFormState extends State<ExpenseForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // EX1 
               SizedBox(
-                width: 100, 
-
+                width: 100,
                 child: DropdownButton<String>(
                   value: _selectedCategoryKey,
                   hint: const Text('category'),
@@ -150,7 +170,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
                             child: Text(key),
                           ))
                       .toList(),
-                  onChanged: (value) {
+                     onChanged: (value) {
                     setState(() {
                       _selectedCategoryKey = value;
                     });
