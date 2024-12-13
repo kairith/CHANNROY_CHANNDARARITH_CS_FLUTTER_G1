@@ -4,7 +4,9 @@ import '../models/grocery_category.dart';
 import '../models/grocery_item.dart';
 
 class NewItem extends StatefulWidget {
-  const NewItem({super.key});
+  final GroceryItem? item;
+
+  const NewItem({super.key, this.item});
 
   @override
   State<NewItem> createState() => _NewItemState();
@@ -12,20 +14,26 @@ class NewItem extends StatefulWidget {
 
 class _NewItemState extends State<NewItem> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _quantityController = TextEditingController();
+  late final TextEditingController _nameController;
+  late final TextEditingController _quantityController;
   GroceryCategory? _selectedCategory;
+  @override
 
-  void _addItem() {
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController(text: widget.item?.name ?? '');
+    _quantityController = TextEditingController(text: widget.item?.quantity.toString() ?? '');
+    _selectedCategory = widget.item?.category;
+  }
+
+  void _addOrUpdateItem() {
     if (_formKey.currentState!.validate() && _selectedCategory != null) {
       final newItem = GroceryItem(
-        id: const Uuid().v4(), // Generate a unique ID
+        id: widget.item?.id ?? const Uuid().v4(),
         name: _nameController.text,
         quantity: int.parse(_quantityController.text),
         category: _selectedCategory!,
       );
-
-    
       Navigator.pop(context, newItem);
     } else if (_selectedCategory == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -38,7 +46,7 @@ class _NewItemState extends State<NewItem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a new item'),
+        title: Text(widget.item == null ? 'Add a new item' : 'Edit item'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
@@ -55,9 +63,7 @@ class _NewItemState extends State<NewItem> {
                   return null;
                 },
                 maxLength: 50,
-                decoration: const InputDecoration(
-                  label: Text('Name'),
-                ),
+                decoration: const InputDecoration(label: Text('Name')),
               ),
               const SizedBox(height: 10),
               Row(
@@ -75,9 +81,8 @@ class _NewItemState extends State<NewItem> {
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
-                        label: Text('Quantity'),
-                      ),
+                      decoration:
+                          const InputDecoration(label: Text('Quantity')),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -105,9 +110,8 @@ class _NewItemState extends State<NewItem> {
                           _selectedCategory = value;
                         });
                       },
-                      decoration: const InputDecoration(
-                        label: Text('Category'),
-                      ),
+                      decoration:
+                          const InputDecoration(label: Text('Category')),
                     ),
                   ),
                 ],
@@ -118,17 +122,25 @@ class _NewItemState extends State<NewItem> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      _nameController.clear();
-                      _quantityController.clear();
+                      _formKey.currentState!.reset();
                       setState(() {
-                        _selectedCategory = null;
+                        if (!_formKey.currentState!.validate() && _selectedCategory != null) {
+                          _nameController = TextEditingController(
+                              text: widget.item?.name ?? '');
+                          _quantityController = TextEditingController(
+                              text: widget.item?.quantity.toString() ?? '');
+                              
+                            // _selectedCategory = widget.item!.category;
+                            // _selectedCategory = null;
+
+                        }
                       });
                     },
                     child: const Text('Reset'),
                   ),
                   ElevatedButton(
-                    onPressed: _addItem,
-                    child: const Text('Add Item'),
+                    onPressed: _addOrUpdateItem,
+                    child: Text(widget.item == null ? 'Add Item' : 'Edit'),
                   ),
                 ],
               ),

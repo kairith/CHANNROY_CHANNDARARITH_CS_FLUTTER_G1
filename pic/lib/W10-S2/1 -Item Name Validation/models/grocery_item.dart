@@ -1,10 +1,4 @@
 import 'grocery_category.dart';
-enum Mode  { normal, selection }
-
-enum GroceryType {
-  label,
-  color;
-}
 
 class GroceryItem {
   const GroceryItem({

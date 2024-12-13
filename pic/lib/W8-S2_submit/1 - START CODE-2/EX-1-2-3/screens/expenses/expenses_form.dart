@@ -55,7 +55,26 @@ class _ExpenseFormState extends State<ExpenseForm> {
   void onAdd() {
     String title = _titleController.text;
     double amount = double.tryParse(_valueController.text) ?? 0;
+    if(amount <= 0){
 
+     showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('invalid amount'),
+              content: const Text('the amount cannot negative'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("OK"),
+                )
+              ],
+            );
+          });
+      return;
+    }
     if (title.isEmpty) {
       showDialog(
           context: context,

@@ -18,11 +18,4 @@ final dummyGroceryItems = [
       name: 'Beef Steak',
       quantity: 1,
       category: GroceryCategory.meat),
-  const GroceryItem(
-    id: 'd',
-    name: 'Dough',
-    quantity: 2,
-    category: GroceryCategory.carbs),
-
-  
 ];
